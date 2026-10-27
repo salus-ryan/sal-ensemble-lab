@@ -1,0 +1,103 @@
+{
+  "development_only": true,
+  "files": [
+    {
+      "name": "member-1.mp3",
+      "probe": {
+        "format": {
+          "duration": "11.911837",
+          "size": "143614"
+        },
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "channels": 1,
+            "codec_name": "mp3",
+            "sample_rate": "44100"
+          }
+        ]
+      },
+      "sha256": "3ab57a7e43d22bff00f35d16ca6f87cf16651f26cc95e0d304c1254cb6bdb2d2"
+    },
+    {
+      "name": "member-2.mp3",
+      "probe": {
+        "format": {
+          "duration": "11.911837",
+          "size": "143614"
+        },
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "channels": 1,
+            "codec_name": "mp3",
+            "sample_rate": "44100"
+          }
+        ]
+      },
+      "sha256": "c1c06c7f4aca58bdde4ce1387b02443f5e71e71c254c17871f0b1529fb11405c"
+    },
+    {
+      "name": "member-3.mp3",
+      "probe": {
+        "format": {
+          "duration": "11.911837",
+          "size": "143614"
+        },
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "channels": 1,
+            "codec_name": "mp3",
+            "sample_rate": "44100"
+          }
+        ]
+      },
+      "sha256": "def785ae5bd43eaf9cfc4096029a829716536bf0e549385f1c3836e0b1299697"
+    },
+    {
+      "name": "member-4.mp3",
+      "probe": {
+        "format": {
+          "duration": "11.911837",
+          "size": "143614"
+        },
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "channels": 1,
+            "codec_name": "mp3",
+            "sample_rate": "44100"
+          }
+        ]
+      },
+      "sha256": "0d20216ab7089366b0c23c12e64d2d4804e050d0292ec872e60afde3b79e5016"
+    },
+    {
+      "name": "member-5.mp3",
+      "probe": {
+        "format": {
+          "duration": "11.911837",
+          "size": "143614"
+        },
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "channels": 1,
+            "codec_name": "mp3",
+            "sample_rate": "44100"
+          }
+        ]
+      },
+      "sha256": "6fd2f736f4b9bac2e3264a9bed9b271d5a0fbb27220d460cdde4a5018f66e1b9"
+    }
+  ],
+  "schema": "sal-ensemble-demo-assets-v1",
+  "source_render_provenance": "provenance.json",
+  "transcode": "ffmpeg libmp3lame 96 kbps mono 44.1 kHz"
+}

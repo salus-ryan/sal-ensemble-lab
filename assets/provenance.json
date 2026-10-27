@@ -1,0 +1,52 @@
+{
+  "channels": 2,
+  "checkpoint": "checkpoint_39500.pth",
+  "checkpoint_sha256": "2c72f81250b864e966dd390f4ee6e37c05b05a5277881b7453c6870fbd9593ed",
+  "created_at": "2026-10-27T13:16:15.159007+00:00",
+  "identity": "collective synthetic voice ensemble",
+  "members": [
+    {
+      "delay_ms": 0,
+      "pan": -0.7,
+      "seed": 1701,
+      "weight": 0.2
+    },
+    {
+      "delay_ms": 2,
+      "pan": -0.35,
+      "seed": 1702,
+      "weight": 0.2
+    },
+    {
+      "delay_ms": 4,
+      "pan": 0.0,
+      "seed": 1703,
+      "weight": 0.2
+    },
+    {
+      "delay_ms": 6,
+      "pan": 0.35,
+      "seed": 1704,
+      "weight": 0.2
+    },
+    {
+      "delay_ms": 8,
+      "pan": 0.7,
+      "seed": 1705,
+      "weight": 0.2
+    }
+  ],
+  "name": "Sal",
+  "narration": {
+    "deterministically_verified": false,
+    "mode": "development-unverified-text",
+    "requested_checkpoint": "checkpoint_39500.pth"
+  },
+  "output": "sal-ensemble.wav (source render; browser demo publishes member MP3 transcodes only)",
+  "output_sha256": "ca4eb10391ff77cfc28388d6bb6831f058d605ebb48770d7869eb066201869bb",
+  "pretrained_checkpoints": [],
+  "sample_rate": 22050,
+  "shared_alignment": true,
+  "shared_duration_frames": 1026,
+  "text": "We are Sal, a collective synthetic voice ensemble. Use the controls to change our ensemble size, tone, space, and presence. Acoustic character is not gender identity."
+}

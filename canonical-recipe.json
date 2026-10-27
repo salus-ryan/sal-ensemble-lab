@@ -1,0 +1,18 @@
+{
+  "schema": "sal-ensemble-audition-v1",
+  "checkpoint": "checkpoint_39500.pth",
+  "development_only": true,
+  "members": 5,
+  "member_indices": [1, 2, 3, 4, 5],
+  "shared_phoneme_alignment": true,
+  "equal_member_weights": true,
+  "register_semitones": 0,
+  "tone": 0,
+  "stereo_width": 1,
+  "maximum_delay_ms": 8,
+  "member_variation_cents": 0,
+  "ambience": 0,
+  "gender_label": null,
+  "identity_note": "Acoustic presentation is not gender identity.",
+  "source_provenance": "assets/provenance.json"
+}
