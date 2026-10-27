@@ -1,5 +1,6 @@
 "use strict";
 
+const SYNTHESIS_ENDPOINT = "https://salus--sal-swarm-training-sal-demo-synthesize.us-east.modal.run";
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 const controls = {
@@ -12,11 +13,14 @@ const presets = {
   solo: { ...defaults, members: 1, width: 0, delay: 0, name: "Single signal" },
   deep: { ...defaults, register: -3, tone: -50, width: 115, delay: 11, ambience: 8, name: "Deep structure" },
   airy: { ...defaults, register: 2, tone: 60, width: 135, delay: 12, shimmer: 10, ambience: 16, name: "Airy chorus" },
+  massive: { ...defaults, members: 15, width: 125, delay: 14, shimmer: 8, ambience: 8, name: "Fifteen-member field" },
   mono: { ...defaults, width: 0, delay: 2, name: "Mono compatibility" }
 };
-const memberPans = [-0.7, -0.35, 0, 0.35, 0.7];
-const memberSpread = [-1, -0.5, 0, 0.5, 1];
-const selections = { 1: [2], 2: [1, 3], 3: [0, 2, 4], 4: [0, 1, 3, 4], 5: [0, 1, 2, 3, 4] };
+const canonicalSelections = { 1: [2], 2: [1, 3], 3: [0, 2, 4], 4: [0, 1, 3, 4], 5: [0, 1, 2, 3, 4] };
+
+function selectedIndices(count) {
+  return canonicalSelections[count] || Array.from({ length: count }, (_, index) => index);
+}
 let audioContext = null;
 let buffers = [];
 let sources = [];
@@ -38,7 +42,7 @@ function recipe() {
     checkpoint: "checkpoint_39500.pth",
     development_only: true,
     members: v.members,
-    member_indices: selections[v.members].map(i => i + 1),
+    member_indices: selectedIndices(v.members).map(i => i + 1),
     shared_phoneme_alignment: true,
     equal_member_weights: true,
     register_semitones: v.register,
@@ -71,7 +75,7 @@ function updateUI(markCustom = true) {
   $("#shimmer-out").textContent = `${v.shimmer} ct`;
   $("#ambience-out").textContent = `${v.ambience}%`;
   $("#recipe-json").textContent = JSON.stringify(recipe(), null, 2);
-  const selected = new Set(selections[v.members]);
+  const selected = new Set(selectedIndices(v.members));
   $$(".member-dot").forEach((dot, index) => dot.classList.toggle("active", selected.has(index)));
   if (markCustom) {
     currentPreset = "custom";
@@ -112,14 +116,14 @@ async function loadAudio() {
   const AudioCtx = window.AudioContext || window.webkitAudioContext;
   if (!AudioCtx) throw new Error("This browser does not support Web Audio.");
   audioContext = new AudioCtx();
-  const files = [1, 2, 3, 4, 5].map(i => `assets/member-${i}.mp3`);
+  const files = Array.from({ length: 15 }, (_, index) => `assets/member-${index + 1}.mp3`);
   buffers = await Promise.all(files.map(async path => {
     const response = await fetch(path);
     if (!response.ok) throw new Error(`Could not load ${path}`);
     return audioContext.decodeAudioData(await response.arrayBuffer());
   }));
   estimatedDuration = Math.max(...buffers.map(buffer => buffer.duration));
-  $("#load-state").textContent = "Ready · five real aligned member passes · use headphones for width";
+  $("#load-state").textContent = "Ready · fifteen real aligned member passes · use headphones for width";
   $("#load-state").className = "load-state ready";
   $("#play").disabled = false;
   drawVisualizer();
@@ -142,7 +146,7 @@ async function play() {
   stop(false);
   await audioContext.resume();
   const v = values();
-  const chosen = selections[v.members];
+  const chosen = selectedIndices(v.members);
   const mix = audioContext.createGain();
   const lowShelf = audioContext.createBiquadFilter();
   const highShelf = audioContext.createBiquadFilter();
@@ -181,9 +185,11 @@ async function play() {
     const panner = audioContext.createStereoPanner();
     const gain = audioContext.createGain();
     source.buffer = buffers[memberIndex];
-    source.detune.value = v.register * 100 + memberSpread[memberIndex] * v.shimmer;
+    const spread = chosen.length === 1 ? 0 : -1 + 2 * activeIndex / (chosen.length - 1);
+    const canonicalPan = chosen.length === 1 ? 0 : -0.7 + 1.4 * activeIndex / (chosen.length - 1);
+    source.detune.value = v.register * 100 + spread * v.shimmer;
     delay.delayTime.value = chosen.length === 1 ? 0 : (activeIndex / (chosen.length - 1)) * v.delay / 1000;
-    panner.pan.value = Math.max(-1, Math.min(1, memberPans[memberIndex] * v.width / 100));
+    panner.pan.value = Math.max(-1, Math.min(1, canonicalPan * v.width / 100));
     gain.gain.value = level;
     source.connect(delay).connect(panner).connect(gain).connect(mix);
     source.start(launch);
@@ -273,7 +279,6 @@ function validateNarrationText() {
   const singular = /\b(?:i|me|my|mine|myself)\b/i.exec(text);
   const falseClaim = /\b(?:we\s+(?:agree|decide|decided|judge|judged|allow|allowed|deny|denied)|our\s+consensus)\b/i.exec(text);
   const status = $("#text-status");
-  const button = $("#copy-tts-command");
   let message = "✓ Plural self-reference and role boundary pass";
   if (!text) message = "Enter narration text before rendering.";
   else if (singular) message = `Use we/us/our instead of singular “${singular[0]}”.`;
@@ -281,8 +286,55 @@ function validateNarrationText() {
   const valid = message.startsWith("✓");
   status.textContent = message;
   status.className = `text-status ${valid ? "valid" : "invalid"}`;
-  button.disabled = !valid;
+  $("#copy-tts-command").disabled = !valid;
+  $("#synthesize-text").disabled = !valid || !$("#api-key").value.trim();
   return valid;
+}
+
+function audioBytes(base64Value) {
+  const binary = atob(base64Value);
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
+  return bytes.buffer;
+}
+
+async function synthesizeText() {
+  if (!validateNarrationText()) return;
+  const apiKey = $("#api-key").value.trim();
+  const status = $("#synthesis-status");
+  const button = $("#synthesize-text");
+  if (!apiKey) {
+    status.textContent = "Enter the private API key before rendering.";
+    status.className = "synthesis-status error";
+    return;
+  }
+  sessionStorage.setItem("sal-demo-api-key", apiKey);
+  button.disabled = true;
+  status.textContent = "Rendering fifteen aligned members on Modal. This can take about a minute after a cold start…";
+  status.className = "synthesis-status working";
+  try {
+    const response = await fetch(SYNTHESIS_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ api_key: apiKey, text: $("#script-text").value.trim() })
+    });
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.detail || `Render failed with HTTP ${response.status}`);
+    const ordered = [...payload.members].sort((first, second) => first.number - second.number);
+    buffers = await Promise.all(ordered.map(member => audioContext.decodeAudioData(audioBytes(member.audio_base64))));
+    estimatedDuration = Math.max(...buffers.map(buffer => buffer.duration));
+    $("#spoken-text").textContent = `“${payload.text}”`;
+    $("#load-state").textContent = `Ready · render ${payload.render_id} · fifteen aligned members`;
+    status.textContent = `Render complete · ${payload.usage.daily_remaining} daily and ${payload.usage.monthly_remaining} monthly renders remain`;
+    status.className = "synthesis-status success";
+    await play();
+  } catch (error) {
+    status.textContent = error.message;
+    status.className = "synthesis-status error";
+  } finally {
+    button.disabled = false;
+    validateNarrationText();
+  }
 }
 
 async function copyTtsCommand() {
@@ -290,7 +342,7 @@ async function copyTtsCommand() {
   const text = $("#script-text").value.trim();
   let delimiter = "SAL_NARRATION_1701";
   while (text.split("\n").includes(delimiter)) delimiter += "X";
-  const command = `cd ~/agent-kernel\ncat > /tmp/sal-script.txt <<'${delimiter}'\n${text}\n${delimiter}\nTEXT="$(tr '\\n' ' ' < /tmp/sal-script.txt)"\nMODAL_PROFILE=salus modal run --detach marketing/sal_voice/train_modal.py::render_development \\\n  --text "$TEXT" \\\n  --checkpoint-name checkpoint_39500.pth`;
+  const command = `cd ~/agent-kernel\ncat > /tmp/sal-script.txt <<'${delimiter}'\n${text}\n${delimiter}\nTEXT="$(tr '\\n' ' ' < /tmp/sal-script.txt)"\nMODAL_PROFILE=salus modal run --detach marketing/sal_voice/train_modal.py::render_development \\\n  --text "$TEXT" \\\n  --checkpoint-name checkpoint_39500.pth \\\n  --member-count ${values().members}`;
   await copyWithFeedback($("#copy-tts-command"), command);
 }
 
@@ -301,7 +353,7 @@ async function copyMixCommand() {
 
 function initialize() {
   const orbit = $("#member-orbit");
-  for (let index = 0; index < 5; index += 1) {
+  for (let index = 0; index < 15; index += 1) {
     const dot = document.createElement("span");
     dot.className = "member-dot active";
     dot.style.setProperty("--i", index);
@@ -314,10 +366,17 @@ function initialize() {
   $("#stop").addEventListener("click", () => stop());
   $("#reset").addEventListener("click", () => applyPreset("canonical"));
   $("#download-recipe").addEventListener("click", downloadRecipe);
+  $("#synthesize-text").addEventListener("click", synthesizeText);
   $("#copy-tts-command").addEventListener("click", copyTtsCommand);
   $("#copy-mix-command").addEventListener("click", copyMixCommand);
   $("#script-text").addEventListener("input", validateNarrationText);
+  $("#api-key").value = sessionStorage.getItem("sal-demo-api-key") || "";
+  $("#api-key").addEventListener("input", () => {
+    sessionStorage.setItem("sal-demo-api-key", $("#api-key").value);
+    validateNarrationText();
+  });
   $("#play").disabled = true;
+  validateNarrationText();
   updateUI(false);
   loadAudio().catch(error => {
     $("#load-state").textContent = `${error.message} Serve this directory over HTTP instead of opening file:// directly.`;

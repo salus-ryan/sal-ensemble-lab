@@ -20,7 +20,7 @@
 
   <main id="top">
     <section class="hero">
-      <div class="eyebrow">Five aligned signals. One disclosed synthetic narrator.</div>
+      <div class="eyebrow">Up to fifteen aligned signals. One disclosed synthetic narrator.</div>
       <h1>Shape the ensemble.<br><em>Keep the boundary clear.</em></h1>
       <p class="lede">A hands-on walkthrough of the controls that make Sal sound collective: member count, register, tone, stereo placement, micro-delay, and ambience.</p>
       <div class="boundary"><strong>Language matters.</strong> “Swarm” survives in legacy filenames, but Sal are an acoustic ensemble—not a swarm intelligence, decision-maker, or human impersonation.</div>
@@ -38,7 +38,7 @@
 
         <canvas id="visualizer" width="900" height="300" aria-label="Audio waveform visualization"></canvas>
 
-        <blockquote>“We are Sal, a collective synthetic voice ensemble. Use the controls to change our ensemble size, tone, space, and presence. Acoustic character is not gender identity.”</blockquote>
+        <blockquote id="spoken-text">“We are Sal, a collective synthetic voice ensemble. Use the controls to change our ensemble size, tone, space, and presence. Acoustic character is not gender identity.”</blockquote>
 
         <div class="transport">
           <button class="play" id="play" type="button"><span class="play-icon">▶</span><span class="play-label">Play configuration</span></button>
@@ -46,7 +46,7 @@
           <div class="timeline" aria-hidden="true"><div id="progress"></div></div>
           <span class="time" id="time">0:00 / 0:12</span>
         </div>
-        <p class="load-state" id="load-state">Loading five checkpoint-39,500 member recordings…</p>
+        <p class="load-state" id="load-state">Loading fifteen checkpoint-39,500 member recordings…</p>
       </div>
 
       <aside class="controls panel">
@@ -63,13 +63,14 @@
           <button data-preset="solo">Solo</button>
           <button data-preset="deep">Deep</button>
           <button data-preset="airy">Airy</button>
+          <button data-preset="massive">15 voices</button>
           <button data-preset="mono">Mono check</button>
         </div>
 
         <div class="control-group" data-step="2">
           <div class="control-copy"><label for="members">Ensemble members</label><output id="members-out">5</output></div>
-          <input id="members" type="range" min="1" max="5" value="5" step="1">
-          <p>Each active member is a real, independently seeded model pass sharing one phoneme-duration alignment.</p>
+          <input id="members" type="range" min="1" max="15" value="5" step="1">
+          <p>Choose 1–15 real, independently seeded model passes sharing one phoneme-duration alignment. Canonical Sal remain five.</p>
         </div>
 
         <div class="control-grid">
@@ -118,7 +119,7 @@
       </div>
       <div class="steps">
         <article><b>01</b><h3>Write bounded text</h3><p>Sal self-reference in the plural and attribute decisions to the actual system. Arbitrary text stays in development mode.</p></article>
-        <article><b>02</b><h3>Choose the ensemble</h3><p>One member sounds exposed. Five create the canonical aligned chorus. More voices are possible only after extending and testing the renderer.</p></article>
+        <article><b>02</b><h3>Choose the ensemble</h3><p>One member sounds exposed. Five create canonical Sal. Continue through fifteen to hear increasing density without duplicating a recording.</p></article>
         <article><b>03</b><h3>Shape register and tone</h3><p>Register shifts perceived pitch. Tone changes low/high spectral balance. Neither is a truthful “gender” switch.</p></article>
         <article><b>04</b><h3>Place the voices</h3><p>Width controls pan, micro-delay creates depth, and small member variation adds shimmer. Always run the mono check.</p></article>
         <article><b>05</b><h3>Respect identity limits</h3><p>Sal v0 inherit traits from a single-speaker public-domain corpus. A less gender-coded timbre requires new consented data and evaluation—not an EQ preset.</p></article>
@@ -130,12 +131,17 @@
       <div class="recipe-copy">
         <span class="step-label">REPRODUCIBLE OUTPUT</span>
         <h2>Take the sound with you</h2>
-        <p>The browser is an audition surface. Start with bounded text, render five aligned source members on Modal, then export this mix recipe.</p>
+        <p>The browser is an audition surface. Start with bounded text, render the selected aligned members on Modal, then export this mix recipe.</p>
         <label class="script-label" for="script-text">Development narration text</label>
         <textarea id="script-text" rows="5">We are Sal, a collective synthetic voice ensemble. Use the controls to change our ensemble size, tone, space, and presence. Acoustic character is not gender identity.</textarea>
         <p class="text-status valid" id="text-status">✓ Plural self-reference and role boundary pass</p>
+        <label class="script-label" for="api-key">Private demo API key</label>
+        <input id="api-key" type="password" autocomplete="current-password" placeholder="Enter your Sal demo key">
+        <p class="key-note">The key is never bundled with GitHub Pages. It is kept only in this browser tab's session storage.</p>
+        <p class="synthesis-status" id="synthesis-status">Authenticated renders generate fifteen new aligned members, then all sound controls run locally.</p>
         <div class="recipe-actions">
-          <button class="primary" id="copy-tts-command" type="button">Copy TTS command</button>
+          <button class="primary" id="synthesize-text" type="button">Speak this text</button>
+          <button class="ghost" id="copy-tts-command" type="button">Copy CLI command</button>
           <button class="ghost" id="download-recipe" type="button">Download recipe.json</button>
           <button class="ghost" id="copy-mix-command" type="button">Copy offline mix command</button>
         </div>
@@ -149,8 +155,8 @@
         <h2>What can we tune?</h2>
       </div>
       <div class="matrix-grid">
-        <article class="ready"><span>Available now</span><h3>Mix and presentation</h3><ul><li>1–5 aligned members</li><li>Member weights and deterministic seeds</li><li>0–16 ms timing spread</li><li>Stereo width and mono fold-down</li><li>Low/high tonal balance</li><li>Register audition and light ambience</li><li>Checkpoint selection</li></ul></article>
-        <article class="care"><span>Use carefully</span><h3>Perceptual controls</h3><ul><li>Pitch without calling it gender</li><li>Cadence changes with intelligibility tests</li><li>Formant processing with artifact review</li><li>More than five members with loudness normalization</li><li>Emotion only as disclosed performance direction</li></ul></article>
+        <article class="ready"><span>Available now</span><h3>Mix and presentation</h3><ul><li>1–15 aligned members</li><li>Member weights and deterministic seeds</li><li>0–16 ms timing spread</li><li>Stereo width and mono fold-down</li><li>Low/high tonal balance</li><li>Register audition and light ambience</li><li>Checkpoint selection</li></ul></article>
+        <article class="care"><span>Use carefully</span><h3>Perceptual controls</h3><ul><li>Pitch without calling it gender</li><li>Cadence changes with intelligibility tests</li><li>Formant processing with artifact review</li><li>More than fifteen members with loudness normalization</li><li>Emotion only as disclosed performance direction</li></ul></article>
         <article class="future"><span>Requires new training</span><h3>Identity and language</h3><ul><li>Genuinely multi-speaker timbre</li><li>Less gender-coded acoustic identity</li><li>Accent or language conditioning</li><li>Speaker embeddings and consent controls</li><li>New corpus provenance and listening studies</li></ul></article>
       </div>
     </section>
@@ -158,7 +164,7 @@
 
   <footer>
     <div><strong>Sal are an acoustic ensemble.</strong><br>They do not reason, vote, authorize, or impersonate a person.</div>
-    <div class="footer-meta">Checkpoint 39,500 · five aligned source passes · development demo</div>
+    <div class="footer-meta">Checkpoint 39,500 · fifteen aligned source passes · development demo</div>
   </footer>
 
   <script src="app.js"></script>

@@ -8,18 +8,29 @@ A public, dependency-free browser walkthrough for auditioning Sal's acoustic con
 
 Sal are a collective synthetic voice ensemble, not a swarm intelligence, decision-maker, or human impersonation. Legacy internal filenames may still contain the word “swarm.”
 
-## What you can audition
+## Try one through fifteen members
 
-- One through five real aligned member passes
-- Register from −4 to +4 semitones
-- Dark-to-bright tonal balance
-- Stereo width and mono compatibility
-- Zero through 16 milliseconds of timing spread
-- Small symmetric member pitch variation
-- Restrained synthetic ambience
-- Canonical, Solo, Deep, Airy, and Mono-check presets
+The bundled preview contains fifteen real, independently seeded passes from private checkpoint 39,500. Every member shares one model-generated phoneme-duration alignment. Canonical Sal still use five equal members; the lab allows 1–15 for development auditioning.
 
-The included recordings were generated from the private Sal checkpoint 39,500. Model weights are not included. [`assets/provenance.json`](assets/provenance.json) describes the source render, and [`assets/manifest.json`](assets/manifest.json) records every browser audio file's SHA-256 digest and metadata.
+Controls include register, dark-to-bright tone, stereo width, micro-delay, symmetric member variation, ambience, and mono compatibility.
+
+[`assets/provenance.json`](assets/provenance.json) describes the source render. [`assets/manifest.json`](assets/manifest.json) records every browser audio file's SHA-256 digest and metadata. Model weights are not published.
+
+## Authenticated text-to-speech
+
+Authorized users can enter new text and select **Speak this text**. The API key is not embedded in GitHub Pages. It is entered by the user and retained only in that browser tab's `sessionStorage`.
+
+The static site sends the key and text over HTTPS to a lightweight Modal authentication endpoint. Only a valid, in-budget request invokes the private A10 GPU renderer. The response contains fifteen fresh alignment-locked MP3 members; all subsequent sound adjustments happen locally without another GPU request.
+
+Current server-side limits:
+
+- 1–400 narration characters
+- 10 renders per UTC day
+- 100 renders per UTC month
+- One active GPU render at a time
+- Invalid credentials never allocate a GPU
+
+All live output is labeled `authenticated-development-web-demo`. Production publication remains separate and requires a signed, deterministically verified `NarrationPlan`.
 
 ## Gender and identity boundary
 
@@ -29,7 +40,7 @@ A genuinely less gender-coded or more diverse Sal voice requires consented multi
 
 ## Export and reproduce a mix
 
-Use **Download recipe.json** in the demo, then run:
+Use **Download recipe.json**, then run:
 
 ```bash
 python render_recipe.py \
@@ -38,17 +49,9 @@ python render_recipe.py \
   --output sal-custom.wav
 ```
 
-This requires FFmpeg with the Rubber Band filter. The renderer validates all recipe bounds, performs formant-preserving pitch adjustment, and writes a provenance JSON beside the WAV. Output is always marked `development-offline-audition`, never production-ready.
-
-## Text-to-speech boundary
-
-The public site does not expose a GPU endpoint and cannot synthesize arbitrary text. The **Copy TTS command** button generates a command for authorized users of the private `agent-kernel` Modal project.
-
-Production publication remains separate and requires a signed, deterministically verified `NarrationPlan`. Arbitrary text is confined to the development renderer.
+This requires FFmpeg with the Rubber Band filter. The tool validates recipe bounds, performs formant-preserving pitch adjustment, and writes provenance beside the WAV. Output is always marked `development-offline-audition`, never production-ready.
 
 ## Development
-
-Serve locally:
 
 ```bash
 python -m http.server 8771

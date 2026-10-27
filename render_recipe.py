@@ -2,7 +2,7 @@
 """Apply a bounded Sal audition recipe to aligned member recordings.
 
 This is an offline development mixer, not the evidence-bound production renderer.
-It expects member-1 through member-5 audio files generated from the same Sal render.
+It expects up to 15 member audio files generated from the same Sal render.
 """
 
 from __future__ import annotations
@@ -15,15 +15,19 @@ from pathlib import Path
 import subprocess
 from typing import Any
 
-MEMBER_PANS = (-0.70, -0.35, 0.0, 0.35, 0.70)
-MEMBER_SPREAD = (-1.0, -0.5, 0.0, 0.5, 1.0)
-MEMBER_SELECTIONS = {
+CANONICAL_SELECTIONS = {
     1: (2,),
     2: (1, 3),
     3: (0, 2, 4),
     4: (0, 1, 3, 4),
     5: (0, 1, 2, 3, 4),
 }
+
+
+def member_selection(member_count: int) -> tuple[int, ...]:
+    if isinstance(member_count, bool) or not isinstance(member_count, int) or not 1 <= member_count <= 15:
+        raise ValueError("members must be an integer from 1 through 15")
+    return CANONICAL_SELECTIONS.get(member_count, tuple(range(member_count)))
 
 
 def bounded_number(value: Any, name: str, minimum: float, maximum: float) -> float:
@@ -41,8 +45,7 @@ def validate_recipe(value: Any) -> dict[str, Any]:
     if value.get("schema") != "sal-ensemble-audition-v1":
         raise ValueError("unsupported recipe schema")
     members = value.get("members")
-    if isinstance(members, bool) or not isinstance(members, int) or members not in MEMBER_SELECTIONS:
-        raise ValueError("members must be an integer from 1 through 5")
+    member_selection(members)
     return {
         "schema": "sal-ensemble-audition-v1",
         "development_only": True,
@@ -90,12 +93,14 @@ def build_filter(recipe: dict[str, Any], member_indices: tuple[int, ...]) -> str
     labels: list[str] = []
     count = len(member_indices)
     weight = 1.0 / count
-    for active_index, member_index in enumerate(member_indices):
-        variation = MEMBER_SPREAD[member_index] * recipe["member_variation_cents"] / 100
+    for active_index, _member_index in enumerate(member_indices):
+        spread = 0 if count == 1 else -1 + 2 * active_index / (count - 1)
+        variation = spread * recipe["member_variation_cents"] / 100
         semitones = recipe["register_semitones"] + variation
         pitch = 2 ** (semitones / 12)
         delay = 0 if count == 1 else recipe["maximum_delay_ms"] * active_index / (count - 1)
-        pan = max(-1.0, min(1.0, MEMBER_PANS[member_index] * recipe["stereo_width"]))
+        canonical_pan = 0 if count == 1 else -0.7 + 1.4 * active_index / (count - 1)
+        pan = max(-1.0, min(1.0, canonical_pan * recipe["stereo_width"]))
         angle = (pan + 1) * math.pi / 4
         left = math.cos(angle) * math.sqrt(2)
         right = math.sin(angle) * math.sqrt(2)
@@ -127,7 +132,7 @@ def build_filter(recipe: dict[str, Any], member_indices: tuple[int, ...]) -> str
 
 def render(recipe_path: Path, assets: Path, output: Path) -> dict[str, Any]:
     recipe = validate_recipe(json.loads(recipe_path.read_text(encoding="utf-8")))
-    member_indices = MEMBER_SELECTIONS[recipe["members"]]
+    member_indices = member_selection(recipe["members"])
     sources = [find_member(assets, index + 1) for index in member_indices]
     filters = build_filter(recipe, member_indices)
     output = output.resolve()

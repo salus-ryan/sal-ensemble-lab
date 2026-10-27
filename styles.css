@@ -60,8 +60,8 @@ h1 em { font-style: normal; color: transparent; background: linear-gradient(100d
 .stage::before { content: ""; position: absolute; inset: -20% -10% auto; height: 420px; background: radial-gradient(ellipse, rgba(87,216,255,.13), transparent 67%); pointer-events: none; }
 .stage-head, .control-head { position: relative; display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
 h2 { margin: 5px 0 0; font-size: clamp(29px, 3vw, 45px); letter-spacing: -.04em; line-height: 1.1; }
-.member-orbit { min-width: 150px; height: 54px; display: flex; gap: 8px; justify-content: flex-end; align-items: center; }
-.member-dot { --i: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 18px rgba(157,124,255,.75); opacity: .18; transform: scale(.78); transition: .3s ease; }
+.member-orbit { width: 190px; min-height: 54px; display: flex; flex-wrap: wrap; gap: 5px; justify-content: flex-end; align-content: center; align-items: center; }
+.member-dot { --i: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 15px rgba(157,124,255,.75); opacity: .18; transform: scale(.78); transition: .3s ease; }
 .member-dot.active { opacity: 1; transform: scale(1); animation: memberPulse 1.6s ease-in-out infinite; animation-delay: calc(var(--i) * -120ms); }
 @keyframes memberPulse { 50% { transform: scale(1.35); background: var(--cyan); } }
 #visualizer { display: block; width: calc(100% + 40px); height: 300px; margin: 36px -20px 18px; }
@@ -106,11 +106,18 @@ input[type="range"] { width: 100%; accent-color: var(--violet); margin: 17px 0 5
 .recipe p { color: var(--muted); }
 .recipe code { color: var(--cyan); }
 .script-label { display: block; margin: 22px 0 8px; color: var(--text); font-size: 12px; font-weight: 700; }
-#script-text { width: 100%; resize: vertical; min-height: 112px; padding: 14px; border-radius: 13px; border: 1px solid var(--line); color: #dce4f8; background: #080c15; line-height: 1.5; outline: none; }
-#script-text:focus { border-color: rgba(157,124,255,.7); box-shadow: 0 0 0 3px rgba(157,124,255,.1); }
+#script-text, #api-key { width: 100%; padding: 14px; border-radius: 13px; border: 1px solid var(--line); color: #dce4f8; background: #080c15; line-height: 1.5; outline: none; }
+#script-text { resize: vertical; min-height: 112px; }
+#script-text:focus, #api-key:focus { border-color: rgba(157,124,255,.7); box-shadow: 0 0 0 3px rgba(157,124,255,.1); }
 .text-status { margin: 7px 0 0 !important; font-size: 11px; }
 .text-status.valid { color: var(--green); }
 .text-status.invalid { color: var(--rose); }
+.key-note, .synthesis-status { margin: 7px 0 0 !important; font-size: 11px; }
+.key-note { color: #77839f !important; }
+.synthesis-status { color: var(--muted) !important; }
+.synthesis-status.working { color: var(--amber) !important; }
+.synthesis-status.success { color: var(--green) !important; }
+.synthesis-status.error { color: var(--rose) !important; }
 .recipe-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
 .recipe-actions button:disabled { opacity: .42; cursor: not-allowed; }
 .recipe pre { margin: 0; padding: 24px; border-radius: 16px; background: #070a11; border: 1px solid var(--line); color: #aebcdf; font-size: 12px; overflow: auto; max-height: 390px; }
@@ -138,6 +145,8 @@ footer strong { color: var(--text); }
   .hero { padding-top: 70px; }
   h1 { font-size: 51px; }
   .stage, .controls { padding: 22px; }
+  .stage .stage-head { flex-direction: column; }
+  .member-orbit { width: 100%; justify-content: flex-start; min-height: 25px; }
   #visualizer { height: 230px; }
   .transport { grid-template-columns: 1fr auto; }
   .timeline { grid-column: 1 / -1; order: 3; }

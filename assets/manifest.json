@@ -18,7 +18,7 @@
           }
         ]
       },
-      "sha256": "3ab57a7e43d22bff00f35d16ca6f87cf16651f26cc95e0d304c1254cb6bdb2d2"
+      "sha256": "7110cc1cb1aef989da1c4f5d6d098c2ca55d6e5eac63c56f2513587b7a698e08"
     },
     {
       "name": "member-2.mp3",
@@ -37,7 +37,7 @@
           }
         ]
       },
-      "sha256": "c1c06c7f4aca58bdde4ce1387b02443f5e71e71c254c17871f0b1529fb11405c"
+      "sha256": "dbd178585a5097ffeb0d8833c60930e97f70bd8b61e2ebeca9a0ad8eab55ef54"
     },
     {
       "name": "member-3.mp3",
@@ -56,7 +56,7 @@
           }
         ]
       },
-      "sha256": "def785ae5bd43eaf9cfc4096029a829716536bf0e549385f1c3836e0b1299697"
+      "sha256": "a0d07a644b358f2b563305440cd67d74fbb8e0018e8ca88e27ba408482c44151"
     },
     {
       "name": "member-4.mp3",
@@ -75,7 +75,7 @@
           }
         ]
       },
-      "sha256": "0d20216ab7089366b0c23c12e64d2d4804e050d0292ec872e60afde3b79e5016"
+      "sha256": "caaf921193b4b946cab2f16e0aa6f4bf4380c00fe060e84dee70b77f3bd0fbc9"
     },
     {
       "name": "member-5.mp3",
@@ -94,7 +94,197 @@
           }
         ]
       },
-      "sha256": "6fd2f736f4b9bac2e3264a9bed9b271d5a0fbb27220d460cdde4a5018f66e1b9"
+      "sha256": "efc3f3354d66507dd9b156bf87b280bf53423e3f93495351385b54b926777ddb"
+    },
+    {
+      "name": "member-6.mp3",
+      "probe": {
+        "format": {
+          "duration": "11.911837",
+          "size": "143614"
+        },
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "channels": 1,
+            "codec_name": "mp3",
+            "sample_rate": "44100"
+          }
+        ]
+      },
+      "sha256": "6ddc6ef76c50adb62e9c63896911d7b33dd9dc985f590ac8ae93f357dc0d3f7a"
+    },
+    {
+      "name": "member-7.mp3",
+      "probe": {
+        "format": {
+          "duration": "11.911837",
+          "size": "143614"
+        },
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "channels": 1,
+            "codec_name": "mp3",
+            "sample_rate": "44100"
+          }
+        ]
+      },
+      "sha256": "70f4864eba28f5d754e805b7962cd9672a4dc8f22a909cb2e2182bc6a4e845b2"
+    },
+    {
+      "name": "member-8.mp3",
+      "probe": {
+        "format": {
+          "duration": "11.911837",
+          "size": "143614"
+        },
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "channels": 1,
+            "codec_name": "mp3",
+            "sample_rate": "44100"
+          }
+        ]
+      },
+      "sha256": "b03e9b9ee605eb57f5283ab10e4db3516d3bd72f74515b6e9ecb34e54a771c57"
+    },
+    {
+      "name": "member-9.mp3",
+      "probe": {
+        "format": {
+          "duration": "11.911837",
+          "size": "143614"
+        },
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "channels": 1,
+            "codec_name": "mp3",
+            "sample_rate": "44100"
+          }
+        ]
+      },
+      "sha256": "8fa992a4648a19fb1c73c35fc75be6b0055cee0f83f67a7635c448f2e3a3103e"
+    },
+    {
+      "name": "member-10.mp3",
+      "probe": {
+        "format": {
+          "duration": "11.911837",
+          "size": "143614"
+        },
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "channels": 1,
+            "codec_name": "mp3",
+            "sample_rate": "44100"
+          }
+        ]
+      },
+      "sha256": "24b3c5dacf1a540a60ecde6044dca7fc63d6fbdb7d4bfb81378ae14a812894e5"
+    },
+    {
+      "name": "member-11.mp3",
+      "probe": {
+        "format": {
+          "duration": "11.911837",
+          "size": "143614"
+        },
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "channels": 1,
+            "codec_name": "mp3",
+            "sample_rate": "44100"
+          }
+        ]
+      },
+      "sha256": "571e995fd6f67702396dc694ec680611cca2b93e9c06092c82e84fc9eadbbde5"
+    },
+    {
+      "name": "member-12.mp3",
+      "probe": {
+        "format": {
+          "duration": "11.911837",
+          "size": "143614"
+        },
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "channels": 1,
+            "codec_name": "mp3",
+            "sample_rate": "44100"
+          }
+        ]
+      },
+      "sha256": "e4b6d8c9b05ba36a9682315ade75fa9d4e281539e052d6c800abc35fcc9fd166"
+    },
+    {
+      "name": "member-13.mp3",
+      "probe": {
+        "format": {
+          "duration": "11.911837",
+          "size": "143614"
+        },
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "channels": 1,
+            "codec_name": "mp3",
+            "sample_rate": "44100"
+          }
+        ]
+      },
+      "sha256": "a728f09017b62f2ab354221dfb492c892ab7f186b69da5ec94764daaec418d70"
+    },
+    {
+      "name": "member-14.mp3",
+      "probe": {
+        "format": {
+          "duration": "11.911837",
+          "size": "143614"
+        },
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "channels": 1,
+            "codec_name": "mp3",
+            "sample_rate": "44100"
+          }
+        ]
+      },
+      "sha256": "14e889715b58e29200860c92eebe1e1b0683c087f7d3b7cbd2284d3ab36f8ee5"
+    },
+    {
+      "name": "member-15.mp3",
+      "probe": {
+        "format": {
+          "duration": "11.911837",
+          "size": "143614"
+        },
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "channels": 1,
+            "codec_name": "mp3",
+            "sample_rate": "44100"
+          }
+        ]
+      },
+      "sha256": "bb60fd71f8e6a8005fa2004adc01f884e1d13c1ed3c28a1d902287fd86674989"
     }
   ],
   "schema": "sal-ensemble-demo-assets-v1",
